@@ -3,7 +3,7 @@ from django.db import models
 
 class Category(models.Model):
     name = models.CharField(max_length=50)
-    category_price = models.IntegerField()
+    category_price = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
         return f"{self.name} ({self.category_price}₸)"
@@ -17,7 +17,7 @@ class Cars(models.Model):
     mileage = models.IntegerField()
     individual_price = models.DecimalField(default=0, max_digits=10, decimal_places=2)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    car_notes = models.TextField(blank=True, null=True)
+    car_notes = models.TextField(blank=True, null=True, default="")
 
     class Meta:
         verbose_name = 'Car'
@@ -29,8 +29,8 @@ class Cars(models.Model):
 
 class Clients(models.Model):
     full_name = models.CharField(max_length=50)
-    email = models.EmailField()
-    phone_number = models.CharField(max_length=15)
+    email = models.EmailField(unique=True)
+    phone_number = models.CharField(max_length=15, unique=True)
     driver_licence = models.BooleanField(default=False)
     client_notes = models.TextField(blank=True, null=True)
 
